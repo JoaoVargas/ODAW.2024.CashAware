@@ -1,0 +1,120 @@
+name: cashaware
+
+services:
+  postgres:
+    container_name: database_postgres
+    image: postgres:13.16-bookworm
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    volumes:
+       - volume_postgres:/data/postgres
+      #  - ./dump.sql:/docker-entrypoint-initdb.d/dump.sql
+    ports:
+      - "5000:5432"
+    networks:
+      - network_postgres
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  pgadmin:
+    container_name: database_pgadmin
+    image: dpage/pgadmin4:8.12.0
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - volume_pgadmin:/var/lib/pgadmin
+    ports:
+      - "5001:80"
+    networks:
+      - network_postgres
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-O", "-", "http://localhost:5001/misc/ping"]
+      interval: 10s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+
+  backend_api:
+    container_name: backend_api
+    image: node:22.11.0-slim
+    depends_on:
+      postgres:
+        condition: service_healthy
+      # pgadmin:
+      #   condition: service_healthy
+    volumes:
+      - volume_backend_api:/backend_api
+    working_dir: /backend_api
+    command: bash -c "cd /backend_api && npm install && npm run server"
+    ports:
+      - "5002:5002"
+    networks:
+      - network_postgres
+    # healthcheck:
+    #   test: ["CMD", "curl", "localhost:${API_INTERNAL_PORT}/"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 3
+
+  frontend_base:
+    container_name: frontend_base
+    image: node:22.11.0-slim
+    # depends_on:
+    #   api:
+    #     condition: service_healthy
+    depends_on:
+      postgres:
+        condition: service_healthy
+      # pgadmin:
+      #   condition: service_healthy
+    volumes:
+      - volume_frontend_base:/frontend_base
+    working_dir: /frontend_base
+    command: bash -c "cd /frontend_base && npm install && npm run dev"
+    ports:
+      - "5003:5173"
+    networks:
+      - network_postgres
+
+
+networks:
+  network_postgres:
+    driver: bridge
+
+volumes:
+    volume_postgres:
+      driver: local
+      driver_opts:
+        type: 'none'
+        o: 'bind'
+        device: './database/data/postgres'
+    volume_pgadmin:
+      driver: local
+      driver_opts:
+        type: 'none'
+        o: 'bind'
+        device: './database/var/lib/pgadmin'
+    volume_backend_api:
+      driver: local
+      driver_opts:
+        type: 'none'
+        o: 'bind'
+        device: './backend_api'
+    volume_frontend_base:
+      driver: local
+      driver_opts:
+        type: 'none'
+        o: 'bind'
+        device: './frontend_base'
