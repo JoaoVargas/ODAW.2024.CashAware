@@ -72,7 +72,7 @@ services:
     container_name: frontend_base
     image: node:22.11.0-slim
     # depends_on:
-    #   api:
+    #   backend_api:
     #     condition: service_healthy
     depends_on:
       postgres:
