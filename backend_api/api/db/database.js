@@ -5,6 +5,6 @@ const sequelize = new Sequelize('postgres://postgres:postgres@postgres:5432/cash
 
 defineUsuario(sequelize);
 
-sequelize.sync().then(console.log('DB is synced'));
+sequelize.sync({ alter: true }).then(console.log('DB is synced'));
 
 export default sequelize;
