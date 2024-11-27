@@ -8,15 +8,18 @@ interface LoginData {
 }
 
 export default function LoginPage() {
-  const [username, setUsername] = useState<string>("user");
-  const [password, setPassword] = useState<string>("password");
+  const [username, setUsername] = useState<string>("asd");
+  const [password, setPassword] = useState<string>("Password@123");
   const { login } = useAuth();
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (username === "user" && password === "password") {
-      // Replace with actual authentication logic
-      await login();
+    if (username && password) {
+      
+      await login({
+        username, 
+        password,
+      });
     } else {
       alert("Invalid username or password");
     }
@@ -24,9 +27,9 @@ export default function LoginPage() {
 
   return (
     <div>
-      <Button onClick={() => handleLogin}>
-        teste
-      </Button>
+      <form onSubmit={handleLogin}>
+        <Button type="submit">teste</Button>
+      </form>
     </div>
   );
 };

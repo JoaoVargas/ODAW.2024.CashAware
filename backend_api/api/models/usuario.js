@@ -21,8 +21,8 @@ export default (sequelize) => {
       type: DataTypes.STRING(64),
       allowNull: false,
       validate: {
-        len: [8, 64],
-        is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,64}$/,
+        len: [6, 64],
+        is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,64}$/,
       },
     },
   

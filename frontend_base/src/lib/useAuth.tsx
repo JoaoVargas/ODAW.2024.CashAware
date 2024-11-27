@@ -1,25 +1,22 @@
 import { createContext, useContext, useMemo, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
+import api from "./axiosInstance";
 
-// Define the shape of the Auth context value
+interface UserType {
+  username: string;
+  password: string;
+}
+
 interface AuthContextType {
   user: UserType | null;
   login: (data: UserType) => Promise<void>;
+  register: (data: UserType) => Promise<void>;
   logout: () => void;
 }
 
-// Define the shape of the user object (customize based on your needs)
-interface UserType {
-  id: number;
-  username: string;
-  email: string;
-}
-
-// Create the AuthContext with a default value of null
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Define props for the AuthProvider component
 interface AuthProviderProps {
   children: ReactNode;
 }
@@ -28,13 +25,48 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useLocalStorage<UserType | null>("user", null);
   const navigate = useNavigate();
 
-  // Function to authenticate the user
   const login = async (data: UserType) => {
-    setUser(data);
-    navigate("/profile");
+    try {
+      const response = await api.post("/login", data);
+
+      if (response.data.error) {
+        console.log(response.data.error); 
+        return false      
+      }
+
+      if (response.data) {
+        const { user } = response.data;
+        setUser(user);
+        navigate("/dashboard");
+      }
+
+
+    } catch (error: any) {
+      console.log(error.status, error.message, error.response)
+    }
+  };
+  
+  const register = async (data: UserType) => {
+    try {
+      const response = await api.post("/register", data);
+
+      if (response.data.error) {
+        console.log(response.data.error); 
+        return false      
+      }
+
+      if (response.data) {
+        const { user } = response.data;
+        setUser(user);
+        navigate("/dashboard");
+      }
+
+
+    } catch (error: any) {
+      console.log(error.status, error.message, error.response)
+    }
   };
 
-  // Function to sign out the user
   const logout = () => {
     setUser(null);
     navigate("/", { replace: true });
@@ -44,6 +76,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     () => ({
       user,
       login,
+      register,
       logout,
     }),
     [user]
