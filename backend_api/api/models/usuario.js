@@ -33,10 +33,10 @@ export default (sequelize) => {
         }
     },
     nome: {
-        type: DataTypes.STRING(64),
+        type: DataTypes.STRING(128),
         allowNull: true,
         validate: {
-            is: /^[a-zA-Z]+$/
+            is: /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\s'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/
         }
     },
   })
