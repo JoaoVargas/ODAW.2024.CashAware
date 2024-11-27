@@ -1,2 +1,2 @@
-data
-var
+var/lib/pgadmin/*
+data/postgres/*
