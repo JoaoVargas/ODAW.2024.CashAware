@@ -25,7 +25,20 @@ export default (sequelize) => {
         is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,64}$/,
       },
     },
-  
+    email: {
+        type: DataTypes.STRING(256),
+        allowNull: false,
+        validate: {
+            is: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        }
+    },
+    nome: {
+        type: DataTypes.STRING(128),
+        allowNull: true,
+        validate: {
+            is: /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\s'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/
+        }
+    },
   })
   .beforeCreate(async (user) => {
     user.password = await bcrypt.hash(user.password, 10);
