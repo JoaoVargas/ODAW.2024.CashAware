@@ -22,19 +22,19 @@ export default (sequelize) => {
       allowNull: false,
       validate: {
         len: [6, 64],
-        is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,64}$/,
+        is: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&_])[A-Za-z0-9@$!%*?&_]{6,64}$/,
       },
     },
     email: {
         type: DataTypes.STRING(256),
         allowNull: false,
         validate: {
-            is: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+            is: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/ ,
         }
     },
     nome: {
         type: DataTypes.STRING(128),
-        allowNull: true,
+        allowNull: false,
         validate: {
             is: /^[A-Za-zÀ-ÖØ-öø-ÿ]+(?:[\s'-][A-Za-zÀ-ÖØ-öø-ÿ]+)*$/
         }

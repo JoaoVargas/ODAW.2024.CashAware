@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 
 export async function register(req, res) {
-  const { username, password } = req.body;
+  const { username, password, email, nome } = req.body;
 
   try {
     if (!req.body) {
@@ -14,7 +14,7 @@ export async function register(req, res) {
 
     const usuarioExistente = await models.usuario.findOne({ 
       where: { 
-        username 
+        username: username
       } 
     });
 
@@ -25,7 +25,9 @@ export async function register(req, res) {
 
     const novoUsuario = await models.usuario.create({ 
       username, 
-      password 
+      password,
+      email,
+      nome,
     });
 
     res.status(201).json({ 

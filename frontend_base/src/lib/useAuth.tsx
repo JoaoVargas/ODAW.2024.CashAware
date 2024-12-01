@@ -3,15 +3,13 @@ import { useNavigate } from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
 import api from "./axiosInstance";
 
-interface UserType {
-  username: string;
-  password: string;
-}
+import { UserLogin, UserRegister, UserType } from "./interfaces/AuthInterfaces";
+
 
 interface AuthContextType {
   user: UserType | null;
-  login: (data: UserType) => Promise<boolean | void>;
-  register: (data: UserType) => Promise<boolean | void>;
+  login: (data: UserLogin) => Promise<boolean>;
+  register: (data: UserRegister) => Promise<boolean>;
   logout: () => void;
 }
 
@@ -22,10 +20,11 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useLocalStorage<UserType | null>("user", null);
   const navigate = useNavigate();
+  
+  const [user, setUser] = useLocalStorage<UserType | null>("user", null);
 
-  const login = async (data: UserType) => {
+  const login = async (data: UserLogin) => {
     try {
       const response = await api.post("/login", data);
 
@@ -34,19 +33,21 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return false      
       }
 
-      if (response.data) {
-        const { user } = response.data;
+      if (response.data.user) {
+        const user = response.data.user as UserType;
         setUser(user);
         navigate("/dashboard");
+        return true
       }
 
-
+      return false
     } catch (error: any) {
       console.log(error.status, error.message, error.response)
+      return false
     }
   };
   
-  const register = async (data: UserType) => {
+  const register = async (data: UserRegister) => {
     try {
       const response = await api.post("/register", data);
 
@@ -55,15 +56,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         return false      
       }
 
-      if (response.data) {
-        const { user } = response.data;
+      if (response.data.user) {
+        const user = response.data.user as UserType;
         setUser(user);
         navigate("/dashboard");
+        return true      
       }
 
 
+      return false      
     } catch (error: any) {
       console.log(error.status, error.message, error.response)
+      return false
     }
   };
 
