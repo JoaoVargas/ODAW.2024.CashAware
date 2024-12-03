@@ -1,3 +1,4 @@
+import { where } from 'sequelize';
 import sequelize from '../db/database.js';
 const models = sequelize.models;
 
@@ -11,7 +12,7 @@ export async function getGasto(req, res) {
       res.status(404).send(`Gasto com id ${id} não encontrado`);
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(error.message);
   }
 }
 
@@ -20,7 +21,7 @@ export async function getGastos(req, res) {
     const gastos = await models.gasto.findAll();
     res.json(gastos);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(error.message);
   }
 }
 
@@ -29,7 +30,7 @@ export async function createGasto(req, res) {
     const novoGasto = await models.gasto.create(req.body);
     res.json(gasto);
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(error.message);
   }
 }
 
@@ -51,7 +52,7 @@ export async function updateGasto(req, res) {
       res.status(404).send();
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(error.message);
   }
 }
 
@@ -65,7 +66,25 @@ export async function deleteGasto(req, res) {
     
     res.status(200).send();
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(error.message);
+  }
+}
+
+export async function gastosPorUsuario(req, res) {
+  try {
+    const userId = req.params.userId;
+    const gastos = await models.gasto.findAll({
+      where: {
+        userId: userId
+      }
+    })
+    if ( gastos ) {
+      res.json(gastos);
+    } else {
+      res.status(404).send('Gastos não encontrados!')
+    }
+  } catch ( error ) {
+    res.status(500).send(error.message);
   }
 }
 
@@ -83,6 +102,6 @@ export async function gastosPorTag(req, res) {
     })
     res.json(gastos);
   } catch(error) {
-    res.status(500).send(error);
+    res.status(500).send(error.message);
   }
 }
