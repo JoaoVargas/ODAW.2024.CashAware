@@ -12,4 +12,7 @@ router.route('/tags/:id')
   .put(tagController.updateTag)
   .delete(tagController.deleteTag)
 
+router.route('/tags/:idUser')
+  .get(tagController.tagsPorUsuario)
+
 export default router;

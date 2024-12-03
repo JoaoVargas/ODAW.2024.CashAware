@@ -76,14 +76,31 @@ export async function updateTag(req, res) {
 export async function deleteTag(req, res) {
   try {
     const id = req.params.id;
-
-    models.tag.destroy({
+    await models.tag.destroy({
       where: {
         id
       }
     })
-    .then(res.status(200).send(`Tag não deletada!`))
+    res.status(200).send(`Tag deletada!`)
   } catch (error) {
     res.status(500).send(error.message);
+  }
+}
+
+export async function tagsPorUsuario(req, res) {
+  try {
+    const userId = req.params.userId;
+    const tags = await models.tag.findAll({
+      where: {
+        userId: userId,
+      }
+    })
+    if ( tags ) {
+      res.json(tags);
+    } else {
+      res.send(404).send("Tags não encontradas!");
+    }
+  } catch (error) {
+    res.send(500).send(error.message);
   }
 }

@@ -12,4 +12,7 @@ router.route('/gastos/:id')
   .put(gastoController.updateGasto)
   .delete(gastoController.deleteGasto)
 
+router.route('/gastos/:idUser')
+  .get(gastoController.gastosPorUsuario)
+
 export default router;
