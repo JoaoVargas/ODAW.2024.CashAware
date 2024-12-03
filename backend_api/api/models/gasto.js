@@ -1,5 +1,4 @@
 import { DataTypes } from 'sequelize';
-import bcrypt from 'bcrypt'
 
 export default (sequelize) => {
     sequelize.define('gasto', {
