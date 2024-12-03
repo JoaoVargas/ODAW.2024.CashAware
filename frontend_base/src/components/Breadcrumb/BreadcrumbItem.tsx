@@ -31,7 +31,7 @@ export const generateBreadcrumb = (path: string) => {
                 : 
                   <BreadcrumbLink 
                   href="/" 
-                  className='cursor-pointer' 
+                  className='cursor-pointer hover:text-chart1' 
                   onClick={(e) => {
                     e.preventDefault();
                     navigate(breadcrumb.href as string)
