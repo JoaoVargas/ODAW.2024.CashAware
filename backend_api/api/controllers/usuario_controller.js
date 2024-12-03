@@ -41,7 +41,7 @@ export function updateUsuario(req, res, next) {
           novoUsuario, 
           { 
             where: { 
-              id 
+              id: id
             } 
           }
         )
@@ -59,7 +59,7 @@ export function deleteUsuario(req, res, next) {
 
   models.usuario.destroy({
     where: {
-      id
+      id: id
     }
   })
   .then(res.status(200).send())
