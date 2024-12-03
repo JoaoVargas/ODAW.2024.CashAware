@@ -9,9 +9,11 @@ export default (sequelize) => {
         userId: { // Chave estrangeira
             type: DataTypes.UUID,
             references: {
-                model: 'usuario',
-                key: id,
+                model: 'usuarios',
+                key: 'id',
             },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
         },
         name: {
             type: DataTypes.STRING(256),
@@ -30,7 +32,6 @@ export default (sequelize) => {
             validate: {
                 is: /^[\w]+/
             }
-        },
-        onDelete: 'CASCADE'
+        }
     })
 }
