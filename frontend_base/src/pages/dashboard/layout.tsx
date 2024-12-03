@@ -112,9 +112,9 @@ export default function DashboardLayout() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <main>
+          <div className='container mx-auto p-4 h-full'>
             <Outlet />
-          </main>
+          </div>
         </div>
       </SidebarProvider>
     </>
