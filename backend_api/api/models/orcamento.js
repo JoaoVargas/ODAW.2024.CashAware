@@ -38,7 +38,7 @@ export default (sequelize) => {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: 'tag', // Nome da tabela referenciada
+        model: 'tags', // Nome da tabela referenciada
         key: 'id', // Nome da coluna referenciada
       },
       onUpdate: 'CASCADE',
