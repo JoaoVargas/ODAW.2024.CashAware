@@ -10,8 +10,43 @@ const usuario = defineUsuario(sequelize);
 const tag = defineTag(sequelize);
 const orcamento = defineOrcamento(sequelize);
 const gasto = defineGasto(sequelize);
-tag.belongsToMany(gasto, {through: 'gastoTagMap'});
-gasto.belongsToMany(tag, {through: 'gastoTagMap'});
+
+// tag <-> gasto = (n:m)
+
+tag.belongsToMany(gasto, {
+  through: 'gastoTagMap',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+gasto.belongsToMany(tag, {
+  through: 'gastoTagMap',
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+// usuario <-> gasto = (1:n)
+
+usuario.hasMany(gasto);
+gasto.belongTo(usuario, {
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
+
+// tag <-> orçamento = (1:n)
+
+tag.hasMany(orcamento);
+orcamento.belongTo(tag, {
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+})
+
+// usuario <-> tag = (1: n)
+usuario.hasMany(tag);
+tag.belongTo(usuario, {
+  onDelete: 'CASCADE',
+  onUpdate: 'CASCADE',
+});
 
 sequelize.sync({ alter: true }).then(console.log('DB is synced'));
 

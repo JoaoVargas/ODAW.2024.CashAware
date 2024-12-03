@@ -34,15 +34,5 @@ export default (sequelize) => {
         },
       },
     },
-    tag_id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      references: {
-        model: 'tags', // Nome da tabela referenciada
-        key: 'id', // Nome da coluna referenciada
-      },
-      onUpdate: 'CASCADE',
-      onDelete: 'CASCADE',
-    },
   })
 };

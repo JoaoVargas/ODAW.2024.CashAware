@@ -88,19 +88,25 @@ export async function gastosPorUsuario(req, res) {
   }
 }
 
-//  Fazer tabela associativa para recuperar gastos
+// Fazer tabela associativa para recuperar gastos
 export async function gastosPorTag(req, res) {
   try {
     const tagId = req.params.tagId;
     const gastos = await models.gasto.findAll({
       include: {
         model: sequelize.models.tag,
+        required: true,
         where: {
           id: tagId,
-        }
+        },
+        attributes: [],
       }
     })
-    res.json(gastos);
+    if ( gastos ) {
+      res.json(gastos);
+    } else {
+      res.status(404).send('Gastos não encontrados!')
+    }
   } catch(error) {
     res.status(500).send(error.message);
   }
