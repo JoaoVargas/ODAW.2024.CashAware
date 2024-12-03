@@ -2,7 +2,7 @@ import BarChartComponent from '@/components/Chart/BarChart';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartContainer, type ChartConfig } from "@/components/ui/chart"
-import { Bar, BarChart } from "recharts"
+import api from "@/lib/axiosInstance";
 
 const mockGastos = [
   {
@@ -215,7 +215,8 @@ const chartConfig = {
 
 
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const response = await api.post("/login", {id: 2});
 
   return (<div className='h-full flex flex-row gap-4 justify-center items-center'>
 
