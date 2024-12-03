@@ -52,7 +52,7 @@ export default function DashboardLayout() {
   return (
     <>
       <SidebarProvider>
-      <Sidebar collapsible='icon'>
+      <Sidebar>
         <SidebarHeader>
           <img src={Logo} alt="CashAware Logo" />
         </SidebarHeader>
@@ -104,7 +104,7 @@ export default function DashboardLayout() {
         </SidebarFooter>
       </Sidebar>
         <div className='flex flex-col w-full'>
-          <div className='flex flex-row w-full items-center gap-5 py-3 px-2 bg-muted border-b'>
+          <div className='flex flex-row w-full items-center gap-5 py-3 px-2 bg-muted border-b sticky top-0'>
             <SidebarTrigger/>
             <Breadcrumb>
               <BreadcrumbList>
