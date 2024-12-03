@@ -64,8 +64,8 @@ export default function DashboardLayout() {
                   <SidebarMenuItem key={item.title}>
                     <SidebarMenuButton
                     className={item.url === location.pathname 
-                    ? 'text-sidebar-primary hover:text-sidebar-primary active:text-sidebar-primary' 
-                    : ''} 
+                    ? 'text-primary hover:text-chart1  hover:bg-foreground/5 active:text-primary' 
+                    : 'hover:text-chart1 hover:bg-foreground/5'} 
                     size='lg' 
                     asChild>
                       <Link to={item.url}>
@@ -105,16 +105,16 @@ export default function DashboardLayout() {
       </Sidebar>
         <div className='flex flex-col w-full'>
           <div className='flex flex-row w-full items-center gap-5 py-3 px-2 bg-muted border-b sticky top-0'>
-            <SidebarTrigger/>
+            <SidebarTrigger className='hover:text-chart1' />
             <Breadcrumb>
               <BreadcrumbList>
                 {generateBreadcrumb(location.pathname)}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <main>
+          <div className='container mx-auto p-4 h-full'>
             <Outlet />
-          </main>
+          </div>
         </div>
       </SidebarProvider>
     </>

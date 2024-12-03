@@ -1,19 +1,10 @@
 import { DataTypes } from 'sequelize';
 
 export default (sequelize) => {
-    sequelize.define('gasto', {
+  const gasto = sequelize.define('gasto', {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
-        },
-        userId: { // Chave estrangeira
-            type: DataTypes.UUID,
-            references: {
-                model: 'usuarios',
-                key: 'id',
-            },
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
         },
         name: {
             type: DataTypes.STRING(256),
@@ -34,4 +25,5 @@ export default (sequelize) => {
             }
         }
     })
+  return gasto;
 }

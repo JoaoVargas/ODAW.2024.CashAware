@@ -15,4 +15,7 @@ router.route('/gastos/:id')
 router.route('/gastos/:idUser')
   .get(gastoController.gastosPorUsuario)
 
+router.route('/gastos/:idTag')
+  .get(gastoController.gastosPorTag)
+ 
 export default router;
