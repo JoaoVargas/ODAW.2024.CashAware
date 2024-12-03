@@ -22,11 +22,13 @@ export default function AuthenticationPage() {
       <CardContent className='flex items-center justify-center'>
         <div className='flex justify-around w-[500px] lg:w-[750px]'>
           <Button 
+          variant='primary'
           size={screenSize.width >= 1024 ? 'xlg' : 'lg'}
           onClick={() => navigate('/auth/register')}>
             Registrar
           </Button>
           <Button 
+          variant='primary'
           size={screenSize.width >= 1024 ? 'xlg' : 'lg'}
           onClick={() => navigate('/auth/login')}>
             Login

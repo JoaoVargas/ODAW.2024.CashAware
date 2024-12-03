@@ -33,5 +33,14 @@ export default (sequelize) => {
         is: /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/,
       },
     },
+    userId: {
+      type: DataTypes.UUID,
+      references: {
+          model: 'usuarios',
+          key: 'id',
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE',
+    }
   })
 };
