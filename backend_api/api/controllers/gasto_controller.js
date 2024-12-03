@@ -65,6 +65,17 @@ export async function deleteGasto(req, res) {
     
     res.status(200).send();
   } catch (error) {
-    res.status.send(error);
+    res.status(500).send(error);
   }
 }
+
+
+// // Fazer tabela associativa para recuperar gastos
+// export async function gastosPorTag(req, res) {
+//   try {
+//     const tag_id = req.params.tag_id;
+//     const ids = models.gasto_tag_map.find()
+//   } catch(error) {
+//     res.status(500).send(error);
+//   }
+// }
