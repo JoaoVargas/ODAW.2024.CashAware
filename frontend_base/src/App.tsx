@@ -8,6 +8,9 @@ import RegisterPage from "./pages/authentication/register"
 
 import DashboardLayout from "@/pages/dashboard/layout"
 import DashboardPage from "@/pages/dashboard/index"
+import TagsPage from "./pages/dashboard/tags"
+import SettingsPage from "./pages/dashboard/settings"
+
 import { ProtectedRoute } from "./components/ProtectedRoute"
 
 
@@ -19,6 +22,16 @@ function App() {
           <Route index element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/dashboard/tags" element={
+            <ProtectedRoute>
+              <TagsPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/dashboard/configuracoes" element={
+            <ProtectedRoute>
+              <SettingsPage />
             </ProtectedRoute>
           } />
         </Route>
