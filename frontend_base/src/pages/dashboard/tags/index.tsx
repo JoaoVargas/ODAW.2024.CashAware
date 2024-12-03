@@ -99,7 +99,7 @@ export default function TagsPage() {
             <Input type='color' />
           </CardContent>
           <CardFooter>
-            <Button className='w-full'>Adicionar</Button>
+            <Button variant='primary' className='w-full'>Adicionar</Button>
           </CardFooter>
         </Card>
 
